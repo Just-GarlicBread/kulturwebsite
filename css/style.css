@@ -1271,3 +1271,18 @@ body::after {
   img { max-width: 50% !important; box-shadow: none !important; }
   .abschnitt { padding-block: 1rem; }
 }
+
+/* ---------- Laufband mit rennenden Windhunden (Eye Candy) ---------- */
+.fries {
+  height: 64px;
+  background: var(--dunkel-tief) url("../svg/fries-windhunde.svg") 0 0 / 384px 64px repeat-x;
+  border-block: 1px solid var(--linie-zart);
+  animation: laufband 7s linear infinite;
+}
+@keyframes laufband { to { background-position: -384px 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .fries { animation: none; }
+}
+@media print {
+  .fries { display: none; }
+}
