@@ -749,7 +749,7 @@ body::after {
   padding-block: 9rem 4rem;
   border-bottom: 1px solid rgb(246 241 234 / 0.35);
 }
-.opener-klein { min-height: 30rem; padding-block: 5rem 3.5rem; }
+.opener-klein { min-height: max(30rem, min(34vw, 40rem)); padding-block: 5rem 3.5rem; }
 /* Bild und Linien teilen sich eine Ebene: so liegen die Linien bei jeder
    Fenstergröße exakt auf der Grafik (wie object-fit: cover, verankert bei 70 % / 90 %). */
 .opener-ebene {
@@ -757,17 +757,19 @@ body::after {
   inset: 0;
   z-index: -2;
   overflow: hidden;
-  container-type: size;
-  --seitenverhaeltnis: 1.6;
 }
-.opener-klein .opener-ebene { --seitenverhaeltnis: 2.5; }
+/* Bühne im Seitenverhältnis der Grafik, mindestens so groß wie der Abschnitt
+   (wirkt wie object-fit: cover), verankert bei 70 % waagerecht / 90 % senkrecht. */
 .opener-buehne {
   position: absolute;
-  width: max(100cqw, 100cqh * var(--seitenverhaeltnis));
-  height: max(100cqh, 100cqw / var(--seitenverhaeltnis));
-  left: calc((100cqw - max(100cqw, 100cqh * var(--seitenverhaeltnis))) * 0.7);
-  top: calc((100cqh - max(100cqh, 100cqw / var(--seitenverhaeltnis))) * 0.9);
+  left: 70%;
+  top: 90%;
+  min-width: 100%;
+  min-height: 100%;
+  aspect-ratio: 16 / 10;
+  transform: translate(-70%, -90%);
 }
+.opener-klein .opener-buehne { aspect-ratio: 5 / 2; }
 .opener-bild,
 .opener-linien {
   position: absolute;
