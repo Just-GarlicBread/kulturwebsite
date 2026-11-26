@@ -750,33 +750,117 @@ body::after {
   border-bottom: 1px solid rgb(246 241 234 / 0.35);
 }
 .opener-klein { min-height: 30rem; padding-block: 5rem 3.5rem; }
-.opener-bild {
+/* Bild und Linien teilen sich eine Ebene: so liegen die Linien bei jeder
+   Fenstergröße exakt auf der Grafik (wie object-fit: cover, verankert bei 70 % / 90 %). */
+.opener-ebene {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 70% 90%;
   z-index: -2;
+  overflow: hidden;
+  container-type: size;
+  --seitenverhaeltnis: 1.6;
 }
+.opener-klein .opener-ebene { --seitenverhaeltnis: 2.5; }
+.opener-buehne {
+  position: absolute;
+  width: max(100cqw, 100cqh * var(--seitenverhaeltnis));
+  height: max(100cqh, 100cqw / var(--seitenverhaeltnis));
+  left: calc((100cqw - max(100cqw, 100cqh * var(--seitenverhaeltnis))) * 0.7);
+  top: calc((100cqh - max(100cqh, 100cqw / var(--seitenverhaeltnis))) * 0.9);
+}
+.opener-bild,
 .opener-linien {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: -1;
+}
+.opener-linien {
   fill: none;
   stroke: var(--hell);
-  stroke-width: 1.2;
-  opacity: 0.55;
+  stroke-width: 1.8;
+  opacity: 0.75;
+  overflow: visible;
 }
 .opener-linien circle,
 .opener-linien path {
-  stroke-dasharray: 2000;
-  stroke-dashoffset: 2000;
-  animation: zeichnen 3.2s ease-out forwards;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: zeichnen 2.4s ease-out forwards;
 }
-.opener-linien path { animation-delay: 0.6s; }
+
+/* ===== Eigene Startanimation je Seite ===== */
+.opener-text > * { animation: auftauchen-sanft 0.9s ease-out both; }
+.opener-text > :nth-child(1) { animation-delay: 0.2s; }
+.opener-text > :nth-child(2) { animation-delay: 0.35s; }
+.opener-text > :nth-child(3) { animation-delay: 0.6s; }
+.opener-text > :nth-child(4) { animation-delay: 0.8s; }
+.opener-text > :nth-child(5) { animation-delay: 1s; }
+@keyframes auftauchen-sanft { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+/* Start: Kreis, dann Fadenkreuz */
+.opener-index .opener-linien circle { animation-duration: 3.2s; }
+.opener-index .opener-linien path { animation-delay: 0.6s; animation-duration: 3s; }
+.opener-index h1 { animation: aufsteigen 1.3s cubic-bezier(.2,.7,.2,1) 0.35s both; }
+@keyframes aufsteigen { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: none; } }
+
+/* Programm: Ringe wie eine Schallplatte, nacheinander; gestrichelter Ring dreht sich ein */
+.opener-programm .opener-linien circle:nth-of-type(1) { animation-delay: 0.1s; }
+.opener-programm .opener-linien circle:nth-of-type(2) { animation-delay: 0.5s; }
+.opener-programm .opener-linien circle:nth-of-type(3) { animation-delay: 0.9s; }
+.opener-programm .opener-linien .drehring {
+  stroke-dasharray: 1 3;
+  stroke-dashoffset: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+  animation: eindrehen 2.6s ease-out 0.6s forwards;
+}
+.opener-programm .opener-linien path { animation-delay: 1.3s; animation-duration: 1.6s; }
+@keyframes eindrehen { from { opacity: 0; transform: rotate(-120deg); } to { opacity: 1; transform: rotate(0); } }
+.opener-programm h1 { animation: vorhang 1.2s cubic-bezier(.6,0,.2,1) 0.3s both; }
+@keyframes vorhang { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+
+/* Story: Treppe wird Stufe für Stufe erklommen, dann der Bogen über dem Hund */
+.opener-story .opener-linien path:nth-of-type(1) { animation: zeichnen 2.6s steps(26, end) 0.2s forwards; }
+.opener-story .opener-linien path:nth-of-type(2) { animation-delay: 2.6s; animation-duration: 1.2s; }
+.opener-story .opener-linien path:nth-of-type(3) { animation-delay: 0.4s; animation-duration: 2s; }
+.opener-story h1 { animation: aus-dem-spalt 1.2s cubic-bezier(.2,.7,.2,1) 0.3s both; }
+@keyframes aus-dem-spalt {
+  from { clip-path: inset(0 0 100% 0); transform: translateY(0.6em); }
+  to { clip-path: inset(0 0 -0.2em 0); transform: none; }
+}
+
+/* Tickets: Raute zeichnet sich von oben, Strahlen schießen heraus, kleine Raute erscheint */
+.opener-tickets .opener-linien path:nth-of-type(1),
+.opener-tickets .opener-linien path:nth-of-type(2) { animation-duration: 1.4s; }
+.opener-tickets .opener-linien path:nth-of-type(n+3) { animation-delay: 1.3s; animation-duration: 0.9s; animation-timing-function: cubic-bezier(.5,0,.2,1); }
+.opener-tickets .opener-linien .raute {
+  fill: var(--hell);
+  stroke: none;
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+  animation: raute-auf 0.6s ease-out 2s forwards;
+}
+@keyframes raute-auf { from { opacity: 0; scale: 0; } to { opacity: 1; scale: 1; } }
+.opener-tickets h1 { animation: zusammenruecken 1.3s ease-out 0.3s both; }
+@keyframes zusammenruecken { from { opacity: 0; letter-spacing: 0.5em; } to { opacity: 1; letter-spacing: 0.01em; } }
+
+/* Infos: Bögen erscheinen nacheinander von links, dann fährt eine Linie durch */
+.opener-infos .opener-linien path { animation-duration: 1.1s; }
+.opener-infos .opener-linien path:nth-of-type(2) { animation-delay: 0.15s; }
+.opener-infos .opener-linien path:nth-of-type(3) { animation-delay: 0.3s; }
+.opener-infos .opener-linien path:nth-of-type(4) { animation-delay: 0.45s; }
+.opener-infos .opener-linien path:nth-of-type(5) { animation-delay: 0.6s; }
+.opener-infos .opener-linien path:nth-of-type(6) { animation-delay: 0.75s; }
+.opener-infos .opener-linien path:nth-of-type(7) { animation-delay: 0.9s; }
+.opener-infos .opener-linien path:nth-of-type(8) { animation-delay: 1.05s; }
+.opener-infos .opener-linien path:nth-of-type(9) { animation-delay: 1.2s; }
+.opener-infos .opener-linien path:nth-of-type(10) { animation-delay: 1.5s; animation-duration: 1.4s; }
+.opener-infos h1 { animation: scharfstellen 1.4s ease-out 0.3s both; }
+@keyframes scharfstellen { from { opacity: 0; filter: blur(14px); } to { opacity: 1; filter: none; } }
+
 .opener-text { position: relative; }
 .opener h1 {
   font-family: var(--schrift-zier);
@@ -1158,6 +1242,8 @@ body::after {
   .zeichen-faecher path,
   .opener-linien circle,
   .opener-linien path { stroke-dashoffset: 0; }
+  .opener-linien .drehring,
+  .opener-linien .raute { opacity: 1; transform: none; scale: 1; }
   .preis-karte { transform: none !important; }
 }
 
@@ -1173,7 +1259,7 @@ body::after {
   body::before,
   body::after { display: none; }
   .opener { min-height: 0; padding: 1rem 0; }
-  .opener-bild { display: none; }
+  .opener-ebene { display: none; }
   .opener h1, .opener-unterzeile, .meta { color: var(--dunkel) !important; }
   body,
   .tief-bereich,

@@ -9,7 +9,6 @@
 <link rel="icon" href="svg/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180">
-<link rel="preload" href="fonts/italiana.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/style.css">
 <script src="js/main.js" defer></script>
 </head>
@@ -33,14 +32,21 @@
   </div>
 </header>
 <main id="inhalt">
-<section class="opener opener-klein" aria-labelledby="titel">
-  <img class="opener-bild" src="img/banner-tickets.webp" alt="" width="1600" height="640" fetchpriority="high">
-  <svg class="opener-linien" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
-    <circle cx="1130" cy="560" r="300"/>
-    <path d="M1130,0V1000"/>
-    <path d="M0,560H1600"/>
-    <path d="M640,0V1000"/>
+<section class="opener opener-tickets opener-klein" aria-labelledby="titel">
+  <div class="opener-ebene">
+    <div class="opener-buehne">
+      <img class="opener-bild" src="img/banner-tickets.webp" alt="" width="1600" height="640" fetchpriority="high">
+      <svg class="opener-linien" viewBox="0 0 1600 640" aria-hidden="true" focusable="false">
+    <path pathLength="100" d="M1180,110L1390,320L1180,530"/>
+    <path pathLength="100" d="M1180,110L970,320L1180,530"/>
+    <path pathLength="100" d="M1390,320H1600"/>
+    <path pathLength="100" d="M970,320H700"/>
+    <path pathLength="100" d="M1180,110V0"/>
+    <path pathLength="100" d="M1180,530V640"/>
+    <rect class="raute" x="1166" y="306" width="28" height="28" transform="rotate(45 1180 320)"/>
   </svg>
+    </div>
+  </div>
   <div class="inhalt opener-text">
       <p class="meta">Für Mensch &amp; Hund</p>
       <h1 id="titel">Tickets</h1>
