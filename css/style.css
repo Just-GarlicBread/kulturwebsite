@@ -1,0 +1,1187 @@
+/* ==========================================================
+   Pfoten & Poesie – Lesung mit Live-Swing für Hundebesitzer:innen
+   Stil: Art déco (Linienkunst, Fächer, Doppelrahmen)
+   Palette: Braun-Türkis
+   ========================================================== */
+
+/* ---------- Schriften (lokal, SIL Open Font License) ---------- */
+@font-face {
+  font-family: "Poiret One";
+  src: url("../fonts/poiret-one.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Big Shoulders Display";
+  src: url("../fonts/big-shoulders-400.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Big Shoulders Display";
+  src: url("../fonts/big-shoulders-600.woff2") format("woff2");
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Italiana";
+  src: url("../fonts/italiana.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("../fonts/cormorant-italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Josefin Sans";
+  src: url("../fonts/josefin-sans-300.woff2") format("woff2");
+  font-weight: 300;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Josefin Sans";
+  src: url("../fonts/josefin-sans-400.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Josefin Sans";
+  src: url("../fonts/josefin-sans-600.woff2") format("woff2");
+  font-weight: 600;
+  font-display: swap;
+}
+
+/* ---------- Farben aus dem Los (T4) ---------- */
+:root {
+  --dunkel: #2E1F14;
+  --hell: #F6F1EA;
+  --akzent-1: #00B3A4;
+  --akzent-2: #C98B4E;
+
+  /* abgeleitete Töne (nur heller, dunkler, transparent) */
+  --dunkel-tief: #1F150D;
+  --dunkel-weich: #3D2A1C;
+  --kupfer-hell: #E0B07F;     /* 8:1 auf Dunkel */
+  --hell-gedaempft: #D9CCBC;  /* 10:1 auf Dunkel */
+  --linie: rgb(201 139 78 / 0.55);
+  --linie-zart: rgb(201 139 78 / 0.25);
+
+  --schrift-titel: "Poiret One", "Josefin Sans", sans-serif;
+  --schrift-label: "Big Shoulders Display", "Arial Narrow", sans-serif;
+  --schrift-zier: "Italiana", Didot, Georgia, serif;
+  --schrift-skript: "Cormorant Garamond", Georgia, serif;
+  --schrift-text: "Josefin Sans", "Futura", "Century Gothic", Arial, sans-serif;
+
+  --breite: 72rem;
+  --rand: clamp(1rem, 4vw, 2.5rem);
+}
+
+/* ---------- Grundlagen ---------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background-color: var(--dunkel);
+  color: var(--hell);
+  font-family: var(--schrift-text);
+  font-size: 1.125rem;
+  line-height: 1.7;
+  overflow-x: hidden;
+  position: relative;
+}
+/* Fächer-Tapete als zarte Struktur */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: url("../svg/muster.svg") 0 0 / 120px 120px repeat;
+  opacity: 0.07;
+  pointer-events: none;
+}
+
+img,
+svg { max-width: 100%; height: auto; display: block; }
+
+a { color: var(--akzent-1); text-underline-offset: 0.25em; text-decoration-thickness: 1px; }
+a:hover { color: var(--kupfer-hell); }
+
+p { margin: 0 0 1em; }
+strong { font-weight: 600; }
+
+h1, h2, h3 { font-weight: 400; margin: 0 0 0.6em; }
+h1, h2 {
+  font-family: var(--schrift-titel);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+  color: var(--kupfer-hell);
+}
+h1 { font-size: clamp(2.6rem, 8vw, 5.4rem); }
+h2 { font-size: clamp(1.9rem, 4.6vw, 3rem); }
+h3 {
+  font-family: var(--schrift-label);
+  font-weight: 600;
+  font-size: clamp(1.35rem, 2.6vw, 1.6rem);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  color: var(--hell);
+}
+
+.vorzeile {
+  display: block;
+  font-family: var(--schrift-label);
+  font-size: clamp(1.05rem, 2vw, 1.2rem);
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--akzent-1);
+  margin-bottom: 0.8rem;
+}
+.und { font-family: var(--schrift-zier); color: var(--akzent-2); text-transform: none; }
+
+.inhalt {
+  width: min(100% - 2 * var(--rand), var(--breite));
+  margin-inline: auto;
+}
+
+/* Doppelte Kupferlinie mit Raute */
+.linie {
+  border: 0;
+  height: 7px;
+  margin: 1.4rem 0;
+  border-top: 1px solid var(--akzent-2);
+  border-bottom: 1px solid var(--akzent-2);
+  max-width: 22rem;
+  position: relative;
+  overflow: visible;
+}
+.linie::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  background: var(--akzent-1);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.zentriert { text-align: center; }
+.zentriert .linie { margin-inline: auto; }
+
+/* ---------- Art-déco-Rahmen (Doppellinie, gestufte Ecken mit Fächern) ---------- */
+.deco-rahmen {
+  border: 1px solid transparent;
+  border-image-source: url("../svg/rahmen.svg");
+  border-image-slice: 48;
+  border-image-width: 48px;
+  border-image-repeat: stretch;
+  padding: clamp(2.2rem, 4vw, 3rem) clamp(1.5rem, 3.5vw, 2.6rem);
+  background-color: var(--dunkel-tief);
+}
+
+/* ---------- Skip-Link (S6) ---------- */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -5rem;
+  z-index: 100;
+  background: var(--akzent-1);
+  color: var(--dunkel);
+  padding: 0.7rem 1.2rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.skip-link:focus { top: 1rem; color: var(--dunkel); }
+
+/* ---------- Tastaturfokus (T7) ---------- */
+:focus-visible {
+  outline: 2px solid var(--akzent-1);
+  outline-offset: 4px;
+}
+
+/* ---------- Kopfleiste & Navigation (S3, S4) ---------- */
+.kopfleiste {
+  position: relative;
+  z-index: 20;
+  background: var(--dunkel-tief);
+  border-bottom: 1px solid rgb(246 241 234 / 0.35);
+}
+.start .kopfleiste {
+  position: absolute;
+  inset: 0 0 auto 0;
+  background: transparent;
+}
+.kopf-innen {
+  width: min(100% - 2 * var(--rand), var(--breite));
+  margin-inline: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem 2rem;
+  padding-block: 0.9rem 0;
+}
+.marke {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  text-decoration: none;
+  color: var(--hell);
+  padding-bottom: 0.9rem;
+}
+.marke img { width: 48px; height: auto; }
+.marke-name {
+  font-family: var(--schrift-text);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.marke:hover { color: var(--kupfer-hell); }
+
+.hauptnav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.2rem;
+}
+.hauptnav a {
+  display: block;
+  padding: 0.6rem 0.8rem 1.15rem;
+  color: var(--hell);
+  text-decoration: none;
+  font-family: var(--schrift-text);
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  position: relative;
+}
+.hauptnav a::after {
+  content: "";
+  position: absolute;
+  left: 0.8rem;
+  right: 0.8rem;
+  bottom: -1px;
+  height: 3px;
+  background: var(--hell);
+  transform: scaleX(0);
+  transition: transform 0.3s;
+}
+.hauptnav a:hover { color: var(--kupfer-hell); }
+.hauptnav a:hover::after { transform: scaleX(1); background: var(--kupfer-hell); }
+.hauptnav a[aria-current="page"]::after { transform: scaleX(1); }
+
+/* ---------- Abschnitte ---------- */
+.abschnitt { padding-block: clamp(3.5rem, 9vw, 6.5rem); }
+.abschnitt-kopf { text-align: center; max-width: 46rem; margin: 0 auto 3rem; }
+.abschnitt-kopf .linie { margin-inline: auto; }
+
+.tief-bereich {
+  background: var(--dunkel-tief);
+  border-block: 1px solid var(--linie);
+}
+.weich-bereich {
+  background: var(--dunkel-weich);
+  border-block: 1px solid var(--linie);
+}
+
+.ornament { width: min(300px, 80%); margin: 0 auto 1.5rem; }
+
+/* ---------- Hero (Startseite) ---------- */
+.hero {
+  position: relative;
+  padding-block: clamp(2.5rem, 7vw, 5rem);
+  overflow: hidden;
+  isolation: isolate;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(ellipse at 30% 40%, rgb(201 139 78 / 0.12), transparent 60%);
+}
+.hero .inhalt {
+  display: grid;
+  gap: 3rem;
+  align-items: center;
+}
+.hero-text { text-align: center; }
+.hero-text .linie { margin-inline: auto; }
+
+/* Eye Candy: Fächer, der sich selbst zeichnet */
+.zeichen-faecher {
+  width: min(260px, 70%);
+  margin: 0 auto 1rem;
+  color: var(--akzent-2);
+}
+.zeichen-faecher path {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: zeichnen 2.6s ease-out forwards;
+}
+.zeichen-faecher .strahl { animation-delay: calc(var(--i, 0) * 0.08s + 0.6s); }
+.zeichen-faecher .nabe { fill: var(--akzent-1); stroke: none; animation: none; stroke-dasharray: none; opacity: 0; animation: auftauchen 0.8s 2.2s forwards; }
+@keyframes zeichnen { to { stroke-dashoffset: 0; } }
+@keyframes auftauchen { to { opacity: 1; } }
+
+.hero h1 { margin-bottom: 0.2em; }
+.hero h1 span { display: block; }
+.hero h1 .und {
+  font-size: 0.75em;
+  line-height: 1;
+  color: var(--akzent-1);
+  margin: 0.05em 0;
+}
+.hero .lead {
+  font-size: clamp(1.15rem, 2.3vw, 1.35rem);
+  font-weight: 300;
+  max-width: 34rem;
+  margin-inline: auto;
+}
+.eckdaten {
+  list-style: none;
+  padding: 0;
+  margin: 1.8rem auto 2.2rem;
+  display: grid;
+  gap: 0.7rem;
+  max-width: 30rem;
+  text-align: left;
+}
+.eckdaten li { display: flex; align-items: center; gap: 0.9rem; }
+.eckdaten img { width: 44px; height: 44px; flex: none; }
+
+.hero-bild { margin: 0; }
+.hero-bild img { width: 100%; max-width: 30rem; margin-inline: auto; box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.7); }
+.hero-bild figcaption { text-align: center; }
+
+/* ---------- Knöpfe ---------- */
+.knopf {
+  display: inline-block;
+  font-family: var(--schrift-label);
+  font-weight: 600;
+  font-size: 1.15rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.95rem 2rem 0.9rem;
+  background: var(--akzent-2);
+  color: var(--dunkel);
+  border: 1px solid var(--akzent-2);
+  outline: 1px solid var(--dunkel);
+  outline-offset: -6px;
+  cursor: pointer;
+  transition: background-color 0.25s, color 0.25s;
+}
+.knopf:hover { background: var(--kupfer-hell); color: var(--dunkel); }
+.knopf:focus-visible { outline: 2px solid var(--akzent-1); outline-offset: 4px; }
+.knopf-zweit {
+  background: transparent;
+  color: var(--kupfer-hell);
+  outline-color: var(--linie);
+}
+.knopf-zweit:hover { background: var(--akzent-2); color: var(--dunkel); }
+.knopfreihe { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+
+/* ---------- Countdown ---------- */
+.countdown {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.countdown li {
+  min-width: 8rem;
+  text-align: center;
+  padding: 1.4rem 1rem 1.1rem;
+  background: var(--dunkel-tief);
+  border: 4px double var(--akzent-2);
+  outline: 1px solid var(--linie-zart);
+  outline-offset: 5px;
+}
+.countdown .zahl {
+  display: block;
+  font-family: var(--schrift-label);
+  font-weight: 600;
+  font-size: 3.4rem;
+  line-height: 1;
+  color: var(--kupfer-hell);
+}
+.countdown .einheit {
+  font-family: var(--schrift-label);
+  font-size: 1rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--akzent-1);
+}
+
+/* ---------- Karten ---------- */
+.raster {
+  display: grid;
+  gap: 1.8rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+}
+.karte { text-align: center; }
+.karte img.icon { width: 60px; height: 60px; margin: 0 auto 1.1rem; }
+.karte h3 { color: var(--kupfer-hell); }
+
+/* ---------- Zweispaltig ---------- */
+.zweispaltig { display: grid; gap: 3rem; align-items: center; }
+figure { margin: 0 0 1.5rem; }
+figure figcaption {
+  font-family: var(--schrift-label);
+  font-size: 1rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--hell-gedaempft);
+  margin-top: 0.9rem;
+}
+.bild-schatten { box-shadow: 0 24px 50px -18px rgb(0 0 0 / 0.75); }
+
+/* ---------- Zitate ---------- */
+.zitat { margin: 0; text-align: center; }
+.zitat blockquote { margin: 0; }
+.zitat blockquote p {
+  font-family: var(--schrift-zier);
+  font-size: clamp(1.45rem, 3vw, 1.85rem);
+  line-height: 1.4;
+  color: var(--hell);
+}
+.zitat figcaption { color: var(--akzent-1); }
+
+/* ---------- Seitentitel Unterseiten ---------- */
+.seitentitel {
+  text-align: center;
+  padding-block: clamp(3rem, 8vw, 5rem) clamp(2.5rem, 6vw, 3.5rem);
+  border-bottom: 1px solid var(--linie);
+}
+.seitentitel p { max-width: 40rem; margin-inline: auto; font-size: 1.2rem; font-weight: 300; }
+.seitentitel img.faecher { width: 180px; margin: 0 auto 1.2rem; }
+
+/* ---------- Programm (I6) ---------- */
+.programm { margin: 0; }
+.programm-punkt {
+  display: grid;
+  gap: 0.3rem 2.5rem;
+  padding: 1.8rem 0;
+  border-bottom: 1px solid var(--linie-zart);
+  position: relative;
+}
+.programm-punkt:first-child { border-top: 1px solid var(--linie-zart); }
+.programm dt {
+  font-family: var(--schrift-label);
+  font-weight: 600;
+  font-size: 2.6rem;
+  line-height: 1;
+  color: var(--kupfer-hell);
+  letter-spacing: 0.05em;
+}
+.programm dt span {
+  display: block;
+  font-weight: 400;
+  font-size: 1rem;
+  color: var(--akzent-1);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-top: 0.4rem;
+}
+.programm dd { margin: 0; }
+.programm dd strong {
+  display: block;
+  font-family: var(--schrift-titel);
+  font-weight: 400;
+  font-size: 1.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--hell);
+  margin-bottom: 0.4rem;
+  line-height: 1.2;
+}
+.programm .pfote-tipp {
+  display: block;
+  margin-top: 0.6rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--akzent-1);
+  font-size: 1rem;
+  color: var(--hell-gedaempft);
+}
+
+.mitwirkende { display: grid; gap: 1.8rem; }
+.bildpaar { display: grid; gap: 1rem; grid-template-columns: 1fr 1fr; align-items: end; }
+
+/* ---------- Story: Sticky Storytelling ---------- */
+.sticky-story { display: grid; gap: 2.5rem; }
+.kapitel { padding: 1.8rem 0; border-bottom: 1px solid var(--linie-zart); }
+.kapitel:last-child { border-bottom: 0; }
+.kapitel .jahr {
+  display: block;
+  font-family: var(--schrift-label);
+  font-weight: 600;
+  font-size: 3rem;
+  line-height: 1;
+  color: var(--akzent-1);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+
+/* ---------- Tickets (Eye Candy: kippende Karten) ---------- */
+.preise {
+  display: grid;
+  gap: 1.8rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  perspective: 900px;
+}
+.preis-karte {
+  text-align: center;
+  transform-style: preserve-3d;
+  transition: transform 0.25s ease-out, box-shadow 0.25s;
+}
+.preis-karte:hover { box-shadow: 0 22px 40px -14px rgb(0 0 0 / 0.8); }
+.preis-karte h3 { color: var(--hell); }
+.preis-karte .preis {
+  font-family: var(--schrift-titel);
+  font-size: 3.4rem;
+  line-height: 1;
+  color: var(--kupfer-hell);
+  margin: 0.4rem 0 1.2rem;
+}
+.preis-karte ul { list-style: none; padding: 0; margin: 0; font-size: 1rem; }
+.preis-karte li { padding: 0.45rem 0; border-top: 1px solid var(--linie-zart); }
+.preis-karte.hervor { background-color: var(--dunkel-weich); }
+.preis-karte.hervor .preis { color: var(--akzent-1); }
+.preis-karte .marke-band {
+  display: inline-block;
+  font-family: var(--schrift-label);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  color: var(--dunkel);
+  background: var(--akzent-1);
+  padding: 0.2rem 0.8rem 0.1rem;
+  margin-bottom: 0.8rem;
+}
+
+/* ---------- Formular (I7) ---------- */
+.formular { display: grid; gap: 1.5rem; grid-template-columns: 1fr; align-items: start; }
+.formular h3 { margin-bottom: 0; color: var(--kupfer-hell); }
+.feld { display: grid; gap: 0.4rem; }
+.feld label,
+.formular legend {
+  font-family: var(--schrift-label);
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--hell);
+}
+.feld .hinweis { font-size: 0.95rem; color: var(--hell-gedaempft); }
+.formular input,
+.formular select,
+.formular textarea {
+  font: inherit;
+  font-size: 1.05rem;
+  width: 100%;
+  padding: 0.75rem 0.9rem 0.6rem;
+  border: 1px solid var(--akzent-2);
+  background: var(--dunkel);
+  color: var(--hell);
+  border-radius: 0;
+}
+.formular select option { background: var(--dunkel); color: var(--hell); }
+.formular textarea { min-height: 7rem; resize: vertical; }
+.formular input:focus,
+.formular select:focus,
+.formular textarea:focus { border-color: var(--akzent-1); }
+.formular fieldset { border: 1px solid var(--linie); padding: 1rem 1.2rem; margin: 0; }
+.check { display: flex; gap: 0.8rem; align-items: flex-start; }
+.check label { font-family: var(--schrift-text); text-transform: none; letter-spacing: 0; font-weight: 400; font-size: 1rem; }
+.check input { width: 1.4rem; height: 1.4rem; flex: none; margin-top: 0.1rem; accent-color: var(--akzent-1); }
+.pflicht { color: var(--akzent-1); }
+.danke {
+  border: 1px solid var(--akzent-1);
+  outline: 1px solid var(--akzent-1);
+  outline-offset: -6px;
+  color: var(--hell);
+  padding: 1.5rem 1.6rem;
+}
+.danke[hidden] { display: none; }
+
+/* ---------- FAQ ---------- */
+.faq { max-width: 52rem; }
+.faq details { border-bottom: 1px solid var(--linie); }
+.faq details:first-of-type { border-top: 1px solid var(--linie); }
+.faq summary {
+  cursor: pointer;
+  padding: 1.2rem 0.2rem;
+  font-family: var(--schrift-label);
+  font-weight: 600;
+  font-size: 1.25rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: "";
+  flex: none;
+  width: 10px;
+  height: 10px;
+  margin-top: 0.45rem;
+  border: 1px solid var(--akzent-1);
+  transform: rotate(45deg);
+  transition: background-color 0.2s;
+}
+.faq details[open] summary::after { background: var(--akzent-1); }
+.faq details p { padding: 0 0.2rem 0.6rem; }
+
+.bildnachweis li { margin-bottom: 0.6rem; }
+
+/* ---------- Footer (S4) ---------- */
+.seitenfuss {
+  background: var(--dunkel-tief);
+  border-top: 1px solid var(--akzent-2);
+  box-shadow: inset 0 4px 0 -3px var(--akzent-2);
+  padding-block: 3rem 2.5rem;
+  font-size: 1rem;
+}
+.fuss-logo {
+  text-align: center;
+  font-family: var(--schrift-zier);
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: var(--hell);
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgb(246 241 234 / 0.25);
+}
+.fuss-logo span { font-family: var(--schrift-skript); font-style: italic; color: var(--akzent-2); }
+.seitenfuss .spalten {
+  display: grid;
+  gap: 1.8rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  text-align: center;
+}
+.seitenfuss h2 {
+  font-family: var(--schrift-label);
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: 0.3em;
+  color: var(--akzent-2);
+  margin-bottom: 0.8rem;
+}
+.seitenfuss ul { list-style: none; padding: 0; margin: 0; }
+.seitenfuss li { margin-bottom: 0.35rem; }
+.seitenfuss .klein { color: var(--hell-gedaempft); }
+
+/* ---------- 404 ---------- */
+.fehler { text-align: center; padding-block: clamp(3rem, 10vw, 6rem); }
+.fehler .code {
+  display: block;
+  font-family: var(--schrift-titel);
+  font-size: clamp(6rem, 22vw, 11rem);
+  line-height: 1;
+  color: var(--akzent-2);
+  letter-spacing: 0.1em;
+}
+.fehler img { margin: 1.5rem auto; width: min(380px, 85%); }
+
+/* ---------- Einblenden ---------- */
+.einblenden { animation: hoch 1s ease-out both; }
+@keyframes hoch { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+
+/* ==========================================================
+   Editorial-Layout (Runde 3)
+   ========================================================== */
+
+/* Filmkorn über allem */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: url("../svg/korn.svg") 0 0 / 240px 240px repeat;
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+.meta {
+  font-family: var(--schrift-text);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--hell);
+  margin-bottom: 1rem;
+}
+.skript {
+  font-family: var(--schrift-skript);
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--akzent-2);
+}
+
+/* ---------- Opener (Vorbild: mittleres Motiv) ---------- */
+.opener {
+  position: relative;
+  min-height: min(100svh, 56rem);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  isolation: isolate;
+  padding-block: 9rem 4rem;
+  border-bottom: 1px solid rgb(246 241 234 / 0.35);
+}
+.opener-klein { min-height: 30rem; padding-block: 5rem 3.5rem; }
+.opener-bild {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 70% 50%;
+  z-index: -2;
+}
+.opener-linien {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  fill: none;
+  stroke: var(--hell);
+  stroke-width: 1.2;
+  opacity: 0.55;
+}
+.opener-linien circle,
+.opener-linien path {
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+  animation: zeichnen 3.2s ease-out forwards;
+}
+.opener-linien path { animation-delay: 0.6s; }
+.opener-text { position: relative; }
+.opener h1 {
+  font-family: var(--schrift-zier);
+  text-transform: none;
+  letter-spacing: 0.01em;
+  color: var(--hell);
+  font-size: clamp(3.2rem, 9vw, 6.8rem);
+  line-height: 1;
+  margin-bottom: 0.3em;
+  max-width: 12ch;
+}
+.opener-klein h1 { font-size: clamp(3rem, 8vw, 5.6rem); }
+.opener h1 .skript { font-size: 1.05em; color: var(--akzent-2); }
+.opener-unterzeile {
+  font-weight: 300;
+  font-size: clamp(1.15rem, 2.2vw, 1.35rem);
+  max-width: 32rem;
+  color: var(--hell);
+}
+
+/* Umriss-Knopf wie im Vorbild */
+.knopf-linie {
+  display: inline-block;
+  margin-top: 0.6rem;
+  padding: 0.65rem 1.1rem 0.55rem;
+  border: 1px solid var(--hell);
+  color: var(--hell);
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background-color 0.25s, color 0.25s;
+}
+.knopf-linie:hover { background: var(--hell); color: var(--dunkel); }
+
+/* Blättern „— 1/5 —“ */
+.blaettern {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: start;
+  gap: 0.3rem 2.6rem;
+  margin-top: 2.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.seitenzahl {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-family: var(--schrift-zier);
+  font-size: 1.2rem;
+  letter-spacing: 0.08em;
+}
+.seitenzahl .strich { width: 2.2rem; border-top: 1px solid var(--hell); }
+.blaettern a { color: var(--hell); text-decoration: none; }
+.blaettern a:hover { color: var(--kupfer-hell); text-decoration: underline; }
+
+/* ---------- Drei Akte (Vorbild: oberes Motiv) ---------- */
+.akte { background: rgb(31 21 13 / 0.6); }
+.akte-raster {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+}
+.titel-klein {
+  font-family: var(--schrift-text);
+  font-weight: 600;
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--hell);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.gedicht {
+  font-family: var(--schrift-text);
+  font-size: 1.15rem;
+  line-height: 1.35;
+  margin: 0;
+  color: var(--hell);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.5rem;
+  justify-content: center;
+}
+.gedicht em { font-family: var(--schrift-skript); color: var(--kupfer-hell); font-size: 1.25em; }
+.datum-klammer {
+  font-family: var(--schrift-zier);
+  font-size: 1.3rem;
+  letter-spacing: 0.06em;
+  text-align: center;
+  margin: 0;
+}
+.karten-drei {
+  display: grid;
+  gap: 1.4rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+}
+.bildkarte {
+  background: var(--hell);
+  color: var(--dunkel);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s;
+}
+.bildkarte:hover { transform: translateY(-6px); }
+.bildkarte img { width: 100%; aspect-ratio: 5 / 4; object-fit: cover; }
+.bildkarte-text { padding: 1.1rem 1rem 1.2rem; text-align: center; }
+.bildkarte h3 {
+  font-family: var(--schrift-zier);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  font-size: 1.5rem;
+  color: var(--dunkel);
+  margin-bottom: 0.2rem;
+}
+.bildkarte .von {
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dunkel-weich);
+  margin-bottom: 0.8rem;
+}
+.mini-knopf {
+  display: inline-block;
+  background: var(--dunkel);
+  color: var(--hell);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.3rem 0.8rem 0.2rem;
+}
+.mini-knopf:hover { background: var(--akzent-2); color: var(--dunkel); }
+.punkte { display: flex; justify-content: center; gap: 0.6rem; margin: 1.8rem 0 1.2rem; }
+.punkte span { width: 1.6rem; height: 0.35rem; background: var(--dunkel-weich); }
+.punkte .an { background: var(--hell-gedaempft); }
+.akte-mitte { text-align: center; min-width: 0; }
+.knopf-grau {
+  display: inline-block;
+  background: var(--dunkel-weich);
+  color: var(--hell);
+  border: 1px solid rgb(246 241 234 / 0.4);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.5rem 1.2rem 0.4rem;
+}
+.knopf-grau:hover { background: var(--hell); color: var(--dunkel); }
+
+/* ---------- Editorial zweispaltig ---------- */
+.editorial { display: grid; gap: 2rem; }
+.editorial h2 {
+  font-family: var(--schrift-zier);
+  text-transform: none;
+  letter-spacing: 0.01em;
+  color: var(--hell);
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  line-height: 1.05;
+}
+.editorial-text { border-top: 1px solid rgb(246 241 234 / 0.35); padding-top: 1.6rem; }
+.editorial-text .eckdaten { margin-inline: 0; }
+
+/* ---------- Countdown-Band ---------- */
+.countdown-band { border-block: 1px solid rgb(246 241 234 / 0.35); }
+.countdown-band .countdown { gap: 0; }
+.countdown-band .countdown li {
+  background: transparent;
+  border: 0;
+  outline: 0;
+  border-left: 1px solid rgb(246 241 234 / 0.35);
+  padding: 0.6rem 1.6rem;
+  min-width: 7.5rem;
+}
+.countdown-band .countdown li:first-child { border-left: 0; }
+.countdown-band .countdown .zahl { font-family: var(--schrift-zier); font-weight: 400; color: var(--hell); font-size: 3.6rem; }
+
+/* ---------- Salon (Vorbild: unteres Motiv) ---------- */
+.segmentleiste {
+  list-style: none;
+  margin: 0 0 3rem;
+  padding: 0;
+  display: flex;
+  border-block: 1px solid rgb(246 241 234 / 0.5);
+  position: relative;
+}
+.segmentleiste li { flex: 1; display: flex; }
+.segmentleiste li:nth-child(2) { justify-content: center; }
+.segmentleiste li:last-child { justify-content: flex-end; }
+.segmentleiste a {
+  display: block;
+  border-inline: 1px solid rgb(246 241 234 / 0.5);
+  padding: 0.35rem 1rem 0.25rem;
+  margin-block: 0.4rem;
+  color: var(--hell);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.segmentleiste a:hover { background: var(--hell); color: var(--dunkel); }
+.logotyp-zeile {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
+}
+.logotyp-mitte { text-align: center; }
+.logotyp {
+  font-family: var(--schrift-zier);
+  color: var(--hell);
+  font-size: clamp(3.2rem, 10vw, 6.4rem);
+  letter-spacing: 0.12em;
+  line-height: 1;
+  margin: 0 0 0.4rem;
+}
+.logotyp .gross { display: block; }
+.logotyp .skript {
+  display: block;
+  font-size: 0.5em;
+  margin-top: -0.55em;
+  color: var(--akzent-2);
+  position: relative;
+}
+.hervorhebung {
+  display: inline-block;
+  background: var(--hell-gedaempft);
+  color: var(--dunkel);
+  font-family: var(--schrift-zier);
+  font-size: 1.3rem;
+  padding: 0.05rem 0.6rem 0;
+  margin: 0.6rem 0 0.2rem;
+}
+.gesperrt { display: flex; justify-content: center; gap: 0.2rem 1.4rem; flex-wrap: wrap; font-size: 0.95rem; margin: 0; }
+.bogen-label,
+.unterstrich-label {
+  color: var(--hell);
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.bogen-label {
+  justify-self: start;
+  position: relative;
+  padding-left: 2.2rem;
+}
+.bogen-label::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 1.6rem;
+  height: 1.6rem;
+  border: 1px solid var(--hell);
+  border-color: transparent transparent var(--hell) var(--hell);
+  border-radius: 50%;
+  transform: translateY(-50%) rotate(-45deg);
+}
+.unterstrich-label {
+  justify-self: end;
+  border-top: 1px solid var(--hell);
+  border-bottom: 1px solid var(--hell);
+  padding: 0.25rem 0.2rem 0.15rem;
+}
+.bogen-label:hover,
+.unterstrich-label:hover { color: var(--kupfer-hell); }
+.praesentiert {
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin: 1.8rem 0 2.4rem;
+}
+.galerie {
+  display: grid;
+  gap: 0.6rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  max-width: 60rem;
+  margin-inline: auto;
+}
+.galerie figure { margin: 0; }
+.galerie img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border: 6px solid var(--hell-gedaempft);
+  filter: saturate(0.85);
+  transition: filter 0.4s;
+}
+.galerie img:hover { filter: none; }
+.galerie figcaption { text-align: center; text-transform: none; letter-spacing: 0.04em; font-family: var(--schrift-skript); font-style: italic; font-size: 1.2rem; }
+.stimmen { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); margin-top: 4rem; }
+.stimmen .zitat { border-top: 1px solid rgb(246 241 234 / 0.35); padding-top: 1.5rem; }
+
+/* ---------- Unterseiten ---------- */
+.trio-plakat { max-width: 26rem; margin: 0 auto 2.5rem; }
+.gross-zitat { padding: 2rem 0; border-block: 1px solid rgb(246 241 234 / 0.35); }
+.gross-zitat blockquote p { font-size: clamp(1.6rem, 3.4vw, 2.3rem); }
+.fehler h1 { font-family: var(--schrift-zier); text-transform: none; color: var(--hell); }
+
+/* ---------- Responsiv (T6) ---------- */
+@media (min-width: 52rem) {
+  .akte-raster { grid-template-columns: 6rem 1fr 9rem; }
+  .gedicht { flex-direction: column; align-items: flex-start; gap: 0; }
+  .gedicht em { padding-left: 1.2rem; }
+  .editorial { grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .hero .inhalt { grid-template-columns: 1.1fr 0.9fr; }
+  .zweispaltig { grid-template-columns: 1fr 1fr; }
+  .zweispaltig.umgekehrt > :first-child { order: 2; }
+  .programm-punkt { grid-template-columns: 10rem 1fr; }
+  .formular { grid-template-columns: 1fr 1fr; }
+  .formular .breit { grid-column: 1 / -1; }
+  .sticky-story { grid-template-columns: 0.9fr 1.1fr; align-items: start; }
+  .sticky-story .bildspalte { position: sticky; top: 1.5rem; }
+  .mitwirkende { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 40rem) {
+  body { font-size: 1.0625rem; }
+  .kopf-innen { justify-content: center; }
+  .marke { padding-bottom: 0.2rem; }
+  .hauptnav ul { justify-content: center; }
+  .hauptnav a { padding: 0.5rem 0.5rem 0.9rem; font-size: 0.78rem; letter-spacing: 0.1em; }
+  .opener { padding-top: 10rem; }
+  .opener::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(90deg, rgb(46 31 20 / 0.88), rgb(46 31 20 / 0.55));
+  }
+  .opener-klein { padding-top: 4rem; }
+  .countdown-band .countdown li { min-width: 5rem; padding-inline: 0.7rem; }
+  .countdown-band .countdown .zahl { font-size: 2.4rem; }
+  .segmentleiste { flex-direction: column; align-items: center; border: 0; }
+  .segmentleiste li { justify-content: center !important; }
+  .logotyp-zeile { grid-template-columns: 1fr; justify-items: center; }
+  .bogen-label, .unterstrich-label { justify-self: center; }
+  .hauptnav a::after { left: 0.5rem; right: 0.5rem; }
+  .marke img { width: 40px; }
+  .karten-drei {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 1rem;
+    padding-bottom: 0.5rem;
+  }
+  .bildkarte { flex: 0 0 78%; scroll-snap-align: center; }
+  .countdown li { min-width: 6.4rem; padding-inline: 0.5rem; }
+  .countdown .zahl { font-size: 2.6rem; }
+  .vorzeile { letter-spacing: 0.22em; }
+  .deco-rahmen { border-image-width: 36px; }
+}
+
+/* ---------- Weniger Bewegung (T8) ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .zeichen-faecher path,
+  .opener-linien circle,
+  .opener-linien path { stroke-dashoffset: 0; }
+  .preis-karte { transform: none !important; }
+}
+
+/* ---------- Druckansicht (T9) ---------- */
+@media print {
+  .skip-link,
+  .hauptnav,
+  .blaettern,
+  .opener-linien,
+  .seitenfuss,
+  .countdown,
+  .knopfreihe { display: none !important; }
+  body::before,
+  body::after { display: none; }
+  .opener { min-height: 0; padding: 1rem 0; }
+  .opener-bild { display: none; }
+  .opener h1, .opener-unterzeile, .meta { color: var(--dunkel) !important; }
+  body,
+  .tief-bereich,
+  .weich-bereich,
+  .seitenkopf,
+  .deco-rahmen,
+  .hero { background: var(--hell) !important; color: var(--dunkel) !important; box-shadow: none !important; }
+  h1, h2, h3, .vorzeile, a, .programm dt, .programm dd strong, .zitat blockquote p { color: var(--dunkel) !important; }
+  img { max-width: 50% !important; box-shadow: none !important; }
+  .abschnitt { padding-block: 1rem; }
+}
